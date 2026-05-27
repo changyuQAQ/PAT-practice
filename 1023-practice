@@ -1,0 +1,20 @@
+int main() {
+    string s,s2; cin >> s;
+    map<int, int>m1, m2;
+    for (int i = 0; i < s.size(); i++)m1[s[i]-'0']++;
+    int t = 0;
+    for (int i = s.size() - 1; i >= 0; i--) {
+        t += (s[i] - '0')*2;
+         char c;
+        if (t >= 10)
+        {
+            m2[t % 10]++; c = t % 10 + '0'; s2 += c;
+            t = 1;
+        }
+        else m2[t]++, c = t + '0',s2+=c, t = 0;
+    }
+    if (t)m2[1]++, s2 += '1';
+    if (m1 == m2)cout << "Yes\n";
+    else cout << "No\n";
+    reverse(s2.begin(), s2.end()); cout << s2;
+}
