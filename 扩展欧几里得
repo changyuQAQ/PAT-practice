@@ -1,0 +1,25 @@
+
+int exgcd(int a, int b, int &x, int &y) {
+    if (b == 0) {
+        x = 1;
+        y = 0;
+        return a;
+    }
+    int g = exgcd(b, a % b, y, x);
+    y -= a / b * x;
+    return g;
+}
+
+int main() {
+    int a, b;
+    cin >> a >> b;
+    int x, y;
+    int g = exgcd(a, b, x, y);   // 得到一组特解 a*x + b*y = g
+    // 通解: x' = x + k*(b/g), y' = y - k*(a/g)
+    // 要求 x 最小非负，调整 k
+    int t = b / g;               // x 的周期
+    x = (x % t + t) % t;         // 得到最小非负 x
+    y = (g - a * x) / b;         // 对应的 y（因为 a*x + b*y = g）
+    cout << x << " " << y << endl;
+    return 0;
+}
