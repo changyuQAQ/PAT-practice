@@ -1,0 +1,81 @@
+// 二叉树节点结构
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+};
+
+// 递归构建二叉树
+// 参数：
+// in: 中序遍历序列
+// post: 后序遍历序列
+// inL, inR: 当前子树在中序数组中的区间 [inL, inR] (闭区间)
+// postL, postR: 当前子树在后序数组中的区间 [postL, postR] (闭区间)
+TreeNode* buildTree(const vector<int>& in, const vector<int>& post,
+    int inL, int inR, int postL, int postR) {
+    if (inL > inR) return nullptr; // 空区间，无节点
+
+    // 后序遍历的最后一个节点是当前子树的根
+    int rootVal = post[postR];
+    TreeNode* root = new TreeNode(rootVal);
+
+    // 在中序遍历中找到根节点的位置
+    int rootIndex = inL;
+    while (in[rootIndex] != rootVal) rootIndex++;
+
+    // 左子树的节点个数
+    int leftSize = rootIndex - inL;
+
+    // 递归构建左子树
+    // 左子树的中序区间：[inL, rootIndex-1]
+    // 左子树的后序区间：[postL, postL + leftSize - 1]
+    root->left = buildTree(in, post, inL, rootIndex - 1,
+        postL, postL + leftSize - 1);
+
+    // 递归构建右子树
+    // 右子树的中序区间：[rootIndex+1, inR]
+    // 右子树的后序区间：[postL + leftSize, postR - 1]
+    root->right = buildTree(in, post, rootIndex + 1, inR,
+        postL + leftSize, postR - 1);
+
+    return root;
+}
+// 4
+/// \
+//1   6
+//\ / \
+//3 5  7
+///
+//2
+
+// 层序遍历二叉树并输出节点值（空格分隔）
+void levelOrder(TreeNode* root) {
+    if (!root) return;
+    queue<TreeNode*> q;
+    q.push(root);
+    while (!q.empty()) {
+        TreeNode* node = q.front();
+        q.pop();
+        cout << node->val;
+        if (node->left) q.push(node->left);
+        if (node->right) q.push(node->right);
+        if (!q.empty()) cout << " "; // 控制空格格式
+    }
+    cout << endl;
+}
+
+int main() {
+    int n; cin >> n;
+    vector<int>in(n); vector<int>post(n);
+    for (int j = 0; j < n; j++)cin >> post[j];
+    for (int j = 0; j < n; j++)cin >> in[j];
+    
+    TreeNode* root = buildTree(in, post, 0, n - 1, 0, n - 1);
+
+    // 输出层序遍历序列
+    levelOrder(root);
+
+    return 0;
+}
+//ai讲解，第一次写树，看了好久
