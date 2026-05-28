@@ -1,0 +1,54 @@
+int le[10]; int ri[10];
+int croot[10];
+bool f1,f2;
+void print(int root) {
+	queue<int> q;
+	q.push(root);
+	while (!q.empty()) {
+		int cur = q.front(); q.pop();
+		if (le[cur] != -1) q.push(le[cur]);
+		if (ri[cur] != -1) q.push(ri[cur]);
+		if (f1) cout << " ";
+		cout << cur;
+		f1 = true;
+	}
+}
+void printin(int root)
+{
+	if (root == -1)return;
+	printin(le[root]);
+	if (f2)cout << " ";
+	cout << root;
+	f2 = true;
+	printin(ri[root]);
+}
+void reverroot(int root)
+{
+	if (root == -1)return;
+	swap(le[root], ri[root]);
+	reverroot(le[root]);
+	reverroot(ri[root]);
+}
+int main()
+{
+	int n; cin >> n;
+
+	for (int i = 0; i < n; i++)
+	{
+		char c1, c2; cin >> c1 >> c2;
+		if (isdigit(c1)) le[i] = c1 - '0', croot[c1 - '0'] = 1;
+		else le[i] = -1;
+		if (isdigit(c2))ri[i] = c2 - '0',croot[c2 - '0'] = 1;
+		else ri[i] = -1;
+	}
+	int root = -1;
+	for (int i = 0; i < n; i++)
+		if (croot[i] == 0)
+		{
+			root = i; break;
+		}
+	reverroot(root);
+	print(root); cout << endl;
+	printin(root);
+}
+//通过给出数据重建二叉树并反转
