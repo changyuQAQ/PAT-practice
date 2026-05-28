@@ -1,0 +1,51 @@
+struct Nodetree
+{
+    int val;
+    Nodetree* left;
+    Nodetree* right;
+    Nodetree(int x) :val(x), left(nullptr), right(nullptr) {};
+};
+Nodetree* buildtree(vector<int> in,vector<int> pre, int inL, int inR, int preL, int preR)
+{
+    if (inL > inR)return nullptr;
+    int rootval = pre[preL];
+    Nodetree* root = new Nodetree(rootval);
+    int leftsize = 0; int cnt = inL;
+    while (in[cnt] != rootval)cnt++;
+    leftsize = cnt - inL;
+    root->left = buildtree(in, pre, inL, cnt - 1,
+        preL + 1, preL + leftsize );
+    root->right = buildtree(in, pre, cnt+ 1, inR,
+        preL + leftsize + 1, preR);
+    return root;
+}
+bool f1 = true;
+void print(Nodetree* root) {
+    if (!root) return;
+    print(root->left);   
+    print(root->right);  
+    if (!f1)cout << " ";
+    cout << root->val;      
+    f1 = false;
+}
+
+int main() {
+    int n; cin >> n; cin.ignore();
+    vector<int>in; vector<int>pre;
+    stack<int>stk;
+    for (int i = 0; i < 2 * n; ++i) {
+        string op; cin >> op;
+        if (op == "Push") {
+            int x; cin >> x;
+            pre.push_back(x);
+            stk.push(x);
+        }
+        else { 
+            int x = stk.top(); stk.pop();
+            in.push_back(x);
+        }
+    }
+    Nodetree* root = buildtree(in, pre, 0, n - 1, 0, n - 1);
+    print(root);
+}
+//第二次写树，非常困难--
