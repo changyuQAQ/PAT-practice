@@ -1,0 +1,26 @@
+int main()
+{
+	int m, n, k; cin >> m >> n >> k;
+	for (int i = 0; i < k; i++)
+	{
+		stack<int>st;
+		bool f1 = false;
+		int cnt = 1;
+		int arr[1010];
+		for (int j = 1; j <= n; j++)cin >> arr[j];
+		for (int c = 1; c <= n; c++)
+		{
+			st.push(c);
+			if (st.size() > m)break;
+			while (!st.empty()&&st.top() == arr[cnt])
+			{
+				cnt++;
+				st.pop(); 
+			}
+		}		
+		if (st.empty() && cnt == n+1)f1 = true;
+		if (f1)cout << "YES" << endl;
+		else cout << "NO" << endl;
+	}
+}
+//对栈的练习，用栈的元素和出入栈次数来判断是否正确出入栈
