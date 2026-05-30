@@ -1,0 +1,38 @@
+const int ma = 26 * 26 * 26 * 10;
+vector<int>v1[ma];
+int getid(string s)
+{
+	int id = 0;
+	for (int i = 0; i < 3; i++)
+		id = id * 26 + (s[i] - 'A');
+	id = id * 10 + (s[3] - '0');
+	return id;
+}
+int main()
+{
+	int num, n;
+	cin >> num >> n;
+	for (int i = 0; i < n; i++)
+	{
+		int cur, pe; cin >> cur >> pe;
+		for (int j = 0; j < pe; j++)
+		{
+			string name; cin >> name;
+			int id = getid(name);
+			v1[id].push_back(cur);
+		}
+	}
+	for (int i = 0; i < num; i++)
+	{
+		string name; cin >> name;
+		int id = getid(name);
+		sort(v1[id].begin(), v1[id].end());
+		cout << name << " " << v1[id].size();
+		for (int j:v1[id])
+		{
+			cout <<" "<< j;
+		}
+		cout << endl;
+	}
+}
+//使用进制转换把所有字符串id转换为唯一的数字id,减少string的卡顿
