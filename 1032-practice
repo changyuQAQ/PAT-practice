@@ -1,0 +1,31 @@
+struct node
+{
+	char date; int ndress;
+	int flag = -1;
+}no[100005];
+int main()
+{
+	int dre1, dre2, n; cin >> dre1 >> dre2 >> n;
+	for (int i = 0; i < n; i++)
+	{
+		int dress; cin >> dress;
+		cin >> no[dress].date; cin >> no[dress].ndress;	
+	}
+	for (int i = dre1; i!=-1 ; i=no[i].ndress)
+	{
+		no[i].flag = 1;
+	}
+	bool f1 = false;
+	for (int j = dre2; j != -1; j = no[j].ndress)
+	{
+		if (no[j].flag == 1)
+			if (no[j].flag == 1)
+	    {
+		    dre1 = j;
+		    f1 = true; break;		
+	    }
+	}
+	if (f1)printf("%05d", dre1);
+	else cout << -1;
+}
+//使用flag对第一个链表进行标记，然后输出第二个链表
