@@ -1,0 +1,40 @@
+struct Node {
+    int ad, key, nx;
+} no[100010];
+
+int main() {
+    int n, st;
+    cin >> n >> st;
+    for (int i = 0; i < n; i++) {
+        int ad, key, nx;
+        cin >> ad >> key >> nx;
+        no[ad] = {ad, key, nx};
+    }
+
+    vector<Node> v;
+    for (int p = st; p != -1; p = no[p].nx)
+        v.push_back(no[p]);
+
+    if (v.empty()) {
+        printf("0 -1\n");
+        return 0;
+    }
+
+    sort(v.begin(), v.end(), [](Node a, Node b) {
+        return a.key < b.key;
+    });
+
+    for (size_t i = 0; i < v.size() - 1; i++)
+        v[i].nx = v[i+1].ad;
+    v.back().nx = -1;
+
+    printf("%d %05d\n", (int)v.size(), v[0].ad);
+    for (size_t i = 0; i < v.size(); i++) {
+        if (v[i].nx == -1)
+            printf("%05d %d -1\n", v[i].ad, v[i].key);
+        else
+            printf("%05d %d %05d\n", v[i].ad, v[i].key, v[i].nx);
+    }
+    return 0;
+}
+//储存所有节点，再存入正确节点进vector最后排序vector输出
