@@ -1,0 +1,31 @@
+int main()
+{
+	int n; cin >> n; 
+	set<int>se[51];
+	for (int i = 0; i < n; i++)
+	{
+		int n1; cin >> n1;
+		for (int j = 0; j < n1; j++)
+		{
+			int num; cin >> num;
+			se[i].insert(num);
+		}
+	}
+	cin >> n;
+	for (int i = 0; i < n; i++)
+	{
+		int s1, s2; cin >> s1 >> s2;
+		s1--; s2--;
+		int same = 0;
+		int diff = se[s1].size();
+		for (int j:se[s2])
+		{
+			//cout << j << " ";
+			if (se[s1].count(j))same++;
+			else diff++;
+		}
+		printf("%.1f%%\n", (same * 1.0 / diff)*100);
+		//cout << diff << " " << same;
+	}
+}
+//对不同set容器进行交集并集计算
