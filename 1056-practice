@@ -1,0 +1,43 @@
+struct test
+{
+	int weight;
+	int pos;
+}te;
+int main()
+{
+	int n, k,pos1; cin >> n >> k;
+	vector<test>v1(n), sv1;
+	for (int j = 0; j < n; j++)	cin >> v1[j].weight;
+	queue<int>qu;
+	for (int j = 0; j < n; j++)cin >> pos1, qu.push(pos1);
+	int temp = n;
+	while (1)
+	{
+		int rem = temp % k;
+		int group = temp / k;
+		if (rem > 0)group++;
+		int ma;
+		for (int i = 0; i < group ; i ++)
+		{
+			ma = qu.front();
+			for (int j = 0; j < k; j++)
+			{
+				if (i * k + j >= temp)break;
+				int cur = qu.front();
+				if (v1[ma].weight < v1[cur].weight) ma = cur;
+				v1[cur].pos = group + 1;
+				qu.pop();
+			}
+			qu.push(ma);
+		}
+		if (qu.size() == 1) { v1[qu.front()].pos = 1; break; }
+		temp = group;
+	}
+	bool f1 = false;
+	for (int i=0; i <v1.size(); i++)
+	{
+		if (f1)cout << " "; cout << v1[i].pos;
+		f1 = true;
+	}
+}
+//使用队列储存胜者组，通过轮次赋予排名
