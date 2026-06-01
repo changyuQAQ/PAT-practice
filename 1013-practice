@@ -1,0 +1,43 @@
+vector<int>v1[1005];
+int child[1005];
+int n, m, k; int cur;
+int find(int a)
+{
+	return child[a] == a ? a : child[a] = find(child[a]);
+}
+void unite(int a, int b)
+{
+	a = find(a); b = find(b);
+	if (a != b)child[a] = b;
+}
+int main()
+{
+	cin >> n >> m >> k;
+	for (int i = 0; i < m; i++)
+	{
+		int a, b; cin >> a >> b;
+		v1[a].push_back(b);
+		v1[b].push_back(a);
+	}
+	for (int i = 0; i < k; i++)
+	{
+		for (int j = 1; j <= n; j++)child[j] = j;
+		cin >> cur;
+		for (int j =1; j <= n; j++)
+			for (int k = 0; k < v1[j].size(); k++)
+			{
+				int d = j; int f = v1[j][k];
+				if (d == cur || f == cur)continue;
+				else {
+					unite(d, f);
+				}
+			}
+		set<int>se;
+		for (int j = 1; j <= n; j++)
+		{
+			if (j != cur)se.insert(find(j));
+		}
+		cout << se.size()-1 << endl;
+	}
+}
+//连接节点转化为连通块个数-1
