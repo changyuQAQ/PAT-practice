@@ -1,0 +1,60 @@
+int n, l;
+vector<int>child[10005];
+bool vis[10005];
+int dex;
+void dfs(int root, int depl)
+{
+	vis[root] = true;
+	if (depl > l-1)return; 
+	for (int i = 0; i < child[root].size(); i++)
+	{
+		if (vis[child[root][i]] == false)
+		{
+			dex++;
+			cout <<"-"<< child[root][i] << endl;
+			dfs(child[root][i], depl + 1);
+		}
+	}
+}
+int bfs(int start) {
+	queue<pair<int, int>> q;
+	bool vis[1005] = { false };
+	q.push({ start, 0 });
+	vis[start] = true;
+	int cnt = 0;
+	while (!q.empty()) {
+		auto [u, level] = q.front(); q.pop();
+		if (level >= l) continue;
+		for (int v : child[u]) {
+			if (!vis[v]) {
+				vis[v] = true;
+				cnt++;
+				q.push({ v, level + 1 });
+			}
+		}
+	}
+	return cnt;
+}
+int main()
+{
+	 cin >> n >> l;
+	 for (int i = 1; i <= n; i++)
+	 {
+		 int n1; cin >> n1;
+		 for (int j = 0; j < n1; j++)
+		 {
+			 int num; cin >> num;
+			 child[num].push_back(i);
+		 }
+	 }
+	 int n2; cin >> n2;
+	 for (int i = 0; i < n2; i++)
+	 {
+		 int root; cin >> root;
+		 dex = 0;
+		 fill(vis, vis + n+1, false);
+		 int dex=bfs(root);
+		 cout << dex << endl;
+	 }
+}
+//使用dfs和bfs均可
