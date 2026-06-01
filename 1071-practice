@@ -1,0 +1,31 @@
+int main()
+{
+	map<string, int>m1;
+	string s; getline(cin, s);
+	for (int i = 0; i < s.size(); i++)s[i] = tolower(s[i]);
+	string str = "";
+	for (char ch : s)
+	{
+		if (ch >= '0' && ch <= '9' || ch >= 'a' && ch <= 'z')
+			str += ch;
+		else {
+			if (!str.empty()) {
+				m1[str]++;
+				str = "";
+			}
+		}
+	}
+	if (!str.empty()) {
+		m1[str]++;
+	}
+	int ma = -1; string sma;
+	for (auto i : m1)
+	{
+		if (i.second > ma)
+		{
+			ma = i.second; sma = i.first;
+		}
+	}
+	cout << sma << " " << ma;
+}
+//字符串转换问题
